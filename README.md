@@ -4,6 +4,8 @@ An automated, self-refreshing Spotify Moodboard that displays your listening his
 
 Built using a **Static Site Generation** approach: a GitHub Action runs a Python script daily to fetch your Spotify data and directly inject it into an HTML template using Jinja2. This results in a blazing-fast, premium glassmorphic UI that requires zero client-side JavaScript for data fetching!
 
+View my example here: https://lamkaiyi.github.io/spotify-moodboard/
+
 ## Features
 - 🕒 **Recent Tracks**: See what you've been listening to recently.
 - 🏆 **All-Time Top Tracks**: Show off your all-time favorite songs.
