@@ -1,9 +1,13 @@
+import os
 import urllib.parse
 import requests
 import webbrowser
+from dotenv import load_dotenv
 
-CLIENT_ID = input("Enter your Spotify Client ID: ").strip()
-CLIENT_SECRET = input("Enter your Spotify Client Secret: ").strip()
+load_dotenv()
+
+CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID') or input("Enter your Spotify Client ID: ").strip()
+CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET') or input("Enter your Spotify Client Secret: ").strip()
 
 # We use example.com because it is a static site that won't strip our query parameters (like Google did!)
 REDIRECT_URI = 'https://example.com/callback'

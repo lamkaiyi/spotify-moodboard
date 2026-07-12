@@ -6,10 +6,13 @@
     <title>Spotify Moodboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="aura-bg" class="aura-bg"></div>
+    <div class="noise-overlay"></div>
+
     <div class="app-container">
         <header class="glass-header">
             <h1>Moodboard</h1>
@@ -17,113 +20,114 @@
                 <button onclick="scrollToSection('recent')">Recent</button>
                 <button onclick="scrollToSection('all-time')">All-Time</button>
                 <button onclick="scrollToSection('playlists')">Playlists</button>
+                <button onclick="scrollToSection('mood')" class="mood-btn">Mood</button>
             </nav>
         </header>
 
-        <main class="carousel-container" id="carousel">
+        <main class="carousel-container" id="carousel" onscroll="handleScroll()">
             <!-- Recent Tracks Section -->
             <section class="carousel-section" id="recent">
                 <div class="section-content">
                     <h2 class="section-title">Recent Tracks</h2>
                     <div class="grid-container">
                         
-                        <a href="https://open.spotify.com/track/4nivAUgvOrWdkv44kjAlxs" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/track/1Usgdce2jOQVqtQ3PfFJB5" target="_blank" class="card glass-card">
                             <div class="card-image">
-                                <img src="https://i.scdn.co/image/ab67616d0000b27315d9f5476654a45b1437bd41" alt="天空沒有極限">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273e28db57abb40095991aa08d3" alt="不要讓我太喜歡你">
                             </div>
                             <div class="card-info">
-                                <h3>天空沒有極限</h3>
-                                <p>G.E.M.</p>
+                                <h3>不要讓我太喜歡你</h3>
+                                <p>蔡恩雨 Priscilla Abby</p>
                             </div>
                         </a>
                         
-                        <a href="https://open.spotify.com/track/6ENf77i5DmXDimXle5Ux3C" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/track/2asybJtO3YT7zg22tsIJBD" target="_blank" class="card glass-card">
                             <div class="card-image">
-                                <img src="https://i.scdn.co/image/ab67616d0000b273d3512d1c4193bc0b78380d17" alt="唯一">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273c80581297d02dbba5aaa7b64" alt="跟悲傷結了帳">
                             </div>
                             <div class="card-info">
-                                <h3>唯一</h3>
-                                <p>G.E.M.</p>
+                                <h3>跟悲傷結了帳</h3>
+                                <p>Gareth.T, 攬佬SKAI ISYOURGOD</p>
                             </div>
                         </a>
                         
-                        <a href="https://open.spotify.com/track/6ENf77i5DmXDimXle5Ux3C" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/track/4fw4NwYVD8nLWLtKtlN8df" target="_blank" class="card glass-card">
                             <div class="card-image">
-                                <img src="https://i.scdn.co/image/ab67616d0000b273d3512d1c4193bc0b78380d17" alt="唯一">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273643c4fb91404d250686fa4ed" alt="最後一次">
                             </div>
                             <div class="card-info">
-                                <h3>唯一</h3>
-                                <p>G.E.M.</p>
+                                <h3>最後一次</h3>
+                                <p>高爾宣 OSN</p>
                             </div>
                         </a>
                         
-                        <a href="https://open.spotify.com/track/7mDTvYD2ieE4Q28XFziMfJ" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/track/38X6Gx6gSX4j597VHiZzcK" target="_blank" class="card glass-card">
                             <div class="card-image">
-                                <img src="https://i.scdn.co/image/ab67616d0000b2738324db1ae37be249aed887e7" alt="Cry">
+                                <img src="https://i.scdn.co/image/ab67616d0000b27316c2a04db9703982ceb2d21f" alt="连名带姓 - Live">
                             </div>
                             <div class="card-info">
-                                <h3>Cry</h3>
-                                <p>Cigarettes After Sex</p>
+                                <h3>连名带姓 - Live</h3>
+                                <p>A-Lin, Zhang Bichen</p>
                             </div>
                         </a>
                         
-                        <a href="https://open.spotify.com/track/1oAwsWBovWRIp7qLMGPIet" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/track/4cshQRJPTObd2V2DgziMT0" target="_blank" class="card glass-card">
                             <div class="card-image">
-                                <img src="https://i.scdn.co/image/ab67616d0000b273dfed999f959177dfc4f33cdc" alt="Apocalypse">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273b40c5f7f0452fd8ba5966da8" alt="失忆 - 正式版">
                             </div>
                             <div class="card-info">
-                                <h3>Apocalypse</h3>
-                                <p>Cigarettes After Sex</p>
+                                <h3>失忆 - 正式版</h3>
+                                <p>吕口口</p>
                             </div>
                         </a>
                         
-                        <a href="https://open.spotify.com/track/2hS27UoT4c4mi8QNjOczO5" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/track/1RuMwTk4Qd7ZKTwX0XU4jp" target="_blank" class="card glass-card">
                             <div class="card-image">
-                                <img src="https://i.scdn.co/image/ab67616d0000b273a28dbf237f9ed44a919ab4e7" alt="Let Her Go">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273786d4a52772090a2dcbc13ca" alt="Easy On Me - Acoustic">
                             </div>
                             <div class="card-info">
-                                <h3>Let Her Go</h3>
-                                <p>Jasmine Thompson</p>
+                                <h3>Easy On Me - Acoustic</h3>
+                                <p>Jonah Baker</p>
                             </div>
                         </a>
                         
-                        <a href="https://open.spotify.com/track/1CobuGL6ysSrfCE2tWcfFU" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/track/298LjjcBvuQCAlwUWb9dKb" target="_blank" class="card glass-card">
                             <div class="card-image">
-                                <img src="https://i.scdn.co/image/ab67616d0000b2739d53c77738a9a997c82db315" alt="The Reason - Acoustic">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273e315e968f364d79e460d8f62" alt="像晴天像雨天（电视剧《难哄》心动曲）">
                             </div>
                             <div class="card-info">
-                                <h3>The Reason - Acoustic</h3>
-                                <p>Hoobastank</p>
+                                <h3>像晴天像雨天（电视剧《难哄》心动曲）</h3>
+                                <p>Silence Wang</p>
                             </div>
                         </a>
                         
-                        <a href="https://open.spotify.com/track/3VPl9E4gVMjtsPyTPmzMgl" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/track/5a59iCKJGGzVqZBDLRBD0J" target="_blank" class="card glass-card">
                             <div class="card-image">
-                                <img src="https://i.scdn.co/image/ab67616d0000b273e15f76556627e29800946fc0" alt="Rewrite the Stars">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273aea9ef333f53dc90a20a0137" alt="有話沒說">
                             </div>
                             <div class="card-info">
-                                <h3>Rewrite the Stars</h3>
-                                <p>Michael Gerow</p>
+                                <h3>有話沒說</h3>
+                                <p>李佳歡, Sherman Zhuo</p>
                             </div>
                         </a>
                         
-                        <a href="https://open.spotify.com/track/5aQDkvNNDDfwD2XHtW9xjq" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/track/68p2L8XpdMNiFMBCkdyrRa" target="_blank" class="card glass-card">
                             <div class="card-image">
-                                <img src="https://i.scdn.co/image/ab67616d0000b273851dd40309621b0855f165e3" alt="Someone You Loved">
+                                <img src="https://i.scdn.co/image/ab67616d0000b2733e5d23654c7870780fd9f50d" alt="错的人">
                             </div>
                             <div class="card-info">
-                                <h3>Someone You Loved</h3>
-                                <p>Conor Maynard</p>
+                                <h3>错的人</h3>
+                                <p>en王翊恩</p>
                             </div>
                         </a>
                         
-                        <a href="https://open.spotify.com/track/5y8liVmpsvn6Kg4JFijj4Z" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/track/23Y3zHUzJrH92tlQVwdWGz" target="_blank" class="card glass-card">
                             <div class="card-image">
-                                <img src="https://i.scdn.co/image/ab67616d0000b273b0b0c49639add74d1aab8d18" alt="What If I Wasn't Done Loving You?">
+                                <img src="https://i.scdn.co/image/ab67616d0000b27391c1bd06090db78a9d13ba0f" alt="只你">
                             </div>
                             <div class="card-info">
-                                <h3>What If I Wasn't Done Loving You?</h3>
-                                <p>Fly By Midnight</p>
+                                <h3>只你</h3>
+                                <p>颜人中</p>
                             </div>
                         </a>
                         
@@ -207,6 +211,16 @@
                             </div>
                         </a>
                         
+                        <a href="https://open.spotify.com/track/6ENf77i5DmXDimXle5Ux3C" target="_blank" class="card glass-card">
+                            <div class="card-image">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273d3512d1c4193bc0b78380d17" alt="唯一">
+                            </div>
+                            <div class="card-info">
+                                <h3>唯一</h3>
+                                <p>G.E.M.</p>
+                            </div>
+                        </a>
+                        
                         <a href="https://open.spotify.com/track/65Wzl9VIDmbFULck1mHWub" target="_blank" class="card glass-card">
                             <div class="card-image">
                                 <img src="https://i.scdn.co/image/ab67616d0000b2730fd500b71aa1c90f24817d9c" alt="Rewind">
@@ -227,16 +241,6 @@
                             </div>
                         </a>
                         
-                        <a href="https://open.spotify.com/track/6ENf77i5DmXDimXle5Ux3C" target="_blank" class="card glass-card">
-                            <div class="card-image">
-                                <img src="https://i.scdn.co/image/ab67616d0000b273d3512d1c4193bc0b78380d17" alt="唯一">
-                            </div>
-                            <div class="card-info">
-                                <h3>唯一</h3>
-                                <p>G.E.M.</p>
-                            </div>
-                        </a>
-                        
                     </div>
                 </div>
             </section>
@@ -244,115 +248,112 @@
             <!-- Playlists Section -->
             <section class="carousel-section" id="playlists">
                 <div class="section-content">
-                    <h2 class="section-title">Your Playlists</h2>
+                    <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
+                        <h2 class="section-title" style="margin-bottom: 0;">Your Playlists</h2>
+                        <label class="toggle-switch-container">
+                            <input type="checkbox" id="toggle-third-party" checked onchange="toggleThirdPartyPlaylists()">
+                            <div class="toggle-switch"></div>
+                            <span>Show Third-Party Playlists</span>
+                        </label>
+                    </div>
                     <div class="grid-container">
                         
-                        <a href="https://open.spotify.com/playlist/5zNJXTTTScXoWbdfD6grqV" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/playlist/5zNJXTTTScXoWbdfD6grqV" target="_blank" class="card glass-card playlist-card ">
                             <div class="card-image">
                                 <img src="https://mosaic.scdn.co/640/ab67616d00001e02387444ab2fc1f08dfe7915abab67616d00001e0240d7efd2594a2b6bda60ea18ab67616d00001e026034eda385497f614778f457ab67616d00001e02e467a8e8d7b0aa92d354aa75" alt="4min/km">
                             </div>
                             <div class="card-info">
                                 <h3>4min/km</h3>
-                                <!-- Uses owner for playlist dicts -->
                                 <p>lamkaiyi</p> 
                             </div>
                         </a>
                         
-                        <a href="https://open.spotify.com/playlist/4xMtYyqruthDx0dJ8CpF11" target="_blank" class="card glass-card">
-                            <div class="card-image">
-                                <img src="https://image-cdn-ak.spotifycdn.com/image/ab67706c0000d72c836e50c857c5da5f9a053c11" alt="鄧紫棋 演唱會2.0 台北大巨蛋｜G.E.M.鄧紫棋 《I AM GLORIA 》2026世界巡迴演唱會 歌單 G.E.M. I AM GLORIA WORLD TOUR Setlist">
-                            </div>
-                            <div class="card-info">
-                                <h3>鄧紫棋 演唱會2.0 台北大巨蛋｜G.E.M.鄧紫棋 《I AM GLORIA 》2026世界巡迴演唱會 歌單 G.E.M. I AM GLORIA WORLD TOUR Setlist</h3>
-                                <!-- Uses owner for playlist dicts -->
-                                <p>AUSTIN</p> 
-                            </div>
-                        </a>
-                        
-                        <a href="https://open.spotify.com/playlist/7sTcSK9dvTc4dH9cmKbXgi" target="_blank" class="card glass-card">
-                            <div class="card-image">
-                                <img src="https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84eab01e67012623e920cc293b" alt="G.E.M. 鄧紫棋神曲精選">
-                            </div>
-                            <div class="card-info">
-                                <h3>G.E.M. 鄧紫棋神曲精選</h3>
-                                <!-- Uses owner for playlist dicts -->
-                                <p>Filtr Taiwan</p> 
-                            </div>
-                        </a>
-                        
-                        <a href="https://open.spotify.com/playlist/0d4PRVtcxAWag46q2fWEqZ" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/playlist/0d4PRVtcxAWag46q2fWEqZ" target="_blank" class="card glass-card playlist-card ">
                             <div class="card-image">
                                 <img src="https://mosaic.scdn.co/640/ab67616d00001e0216c2a04db9703982ceb2d21fab67616d00001e022cabe0989c63e41d9e26e9f0ab67616d00001e029f9f941d637e298723ba80b7ab67616d00001e02a2a43d2fa9590fae2180feb1" alt="Live Feels">
                             </div>
                             <div class="card-info">
                                 <h3>Live Feels</h3>
-                                <!-- Uses owner for playlist dicts -->
                                 <p>lamkaiyi</p> 
                             </div>
                         </a>
                         
-                        <a href="https://open.spotify.com/playlist/6PycUxQWSpvTSQGP3aZpZ1" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/playlist/6PycUxQWSpvTSQGP3aZpZ1" target="_blank" class="card glass-card playlist-card ">
                             <div class="card-image">
                                 <img src="https://mosaic.scdn.co/640/ab67616d00001e02519839ca24ebd7d6f901858eab67616d00001e025915ddde841ef31fc238e1aaab67616d00001e0268d6c09625a0718ccaf98044ab67616d00001e02cab4454080893e5cba49d552" alt="Hoang">
                             </div>
                             <div class="card-info">
                                 <h3>Hoang</h3>
-                                <!-- Uses owner for playlist dicts -->
                                 <p>lamkaiyi</p> 
                             </div>
                         </a>
                         
-                        <a href="https://open.spotify.com/playlist/0gv9fbCCrcRu02MN8RMHKd" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/playlist/0gv9fbCCrcRu02MN8RMHKd" target="_blank" class="card glass-card playlist-card third-party-playlist">
                             <div class="card-image">
                                 <img src="https://mosaic.scdn.co/640/ab67616d00001e022e23d3a9165dbd93f48d6c43ab67616d00001e02955cb8d8834f25c593775c9fab67616d00001e02b40c5f7f0452fd8ba5966da8ab67616d00001e02c8ec29f01c96c81fcb82d4cb" alt="My Shazam Tracks">
                             </div>
                             <div class="card-info">
                                 <h3>My Shazam Tracks</h3>
-                                <!-- Uses owner for playlist dicts -->
                                 <p>lamkaiyi</p> 
                             </div>
                         </a>
                         
-                        <a href="https://open.spotify.com/playlist/2MjbxuSzpkp46Pgyn1liB9" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/playlist/2MjbxuSzpkp46Pgyn1liB9" target="_blank" class="card glass-card playlist-card ">
                             <div class="card-image">
                                 <img src="https://mosaic.scdn.co/640/ab67616d00001e02991f42d615b6fc0a035d0355ab67616d00001e02ab7cd36fe2947ff6e5df1223ab67616d00001e02c608bba44cbcf7058c20cca9ab67616d00001e02cac40dde31b98cb4b327dbe5" alt="Chill vibes ">
                             </div>
                             <div class="card-info">
                                 <h3>Chill vibes </h3>
-                                <!-- Uses owner for playlist dicts -->
                                 <p>lamkaiyi</p> 
                             </div>
                         </a>
                         
-                        <a href="https://open.spotify.com/playlist/4EDQpPOaTIlUYmHMgp1xHi" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/playlist/4EDQpPOaTIlUYmHMgp1xHi" target="_blank" class="card glass-card playlist-card ">
                             <div class="card-image">
                                 <img src="https://mosaic.scdn.co/640/ab67616d00001e021a2c11ab9c672a7cf59b52feab67616d00001e02665c61ab2c824f8fbbc2ab21ab67616d00001e026f8f16d23267562707565699ab67616d00001e02e47f7206df5903bfd66958b2" alt="😡">
                             </div>
                             <div class="card-info">
                                 <h3>😡</h3>
-                                <!-- Uses owner for playlist dicts -->
                                 <p>lamkaiyi</p> 
                             </div>
                         </a>
                         
-                        <a href="https://open.spotify.com/playlist/4IhWopVN4LWRRZz99WCU4S" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/playlist/4IhWopVN4LWRRZz99WCU4S" target="_blank" class="card glass-card playlist-card ">
                             <div class="card-image">
                                 <img src="https://mosaic.scdn.co/640/ab67616d00001e02851dd40309621b0855f165e3ab67616d00001e029d53c77738a9a997c82db315ab67616d00001e02a28dbf237f9ed44a919ab4e7ab67616d00001e02e15f76556627e29800946fc0" alt="Feels">
                             </div>
                             <div class="card-info">
                                 <h3>Feels</h3>
-                                <!-- Uses owner for playlist dicts -->
                                 <p>lamkaiyi</p> 
                             </div>
                         </a>
                         
-                        <a href="https://open.spotify.com/playlist/0qsZoOTCR73lr8t2vKb38P" target="_blank" class="card glass-card">
+                        <a href="https://open.spotify.com/playlist/0qsZoOTCR73lr8t2vKb38P" target="_blank" class="card glass-card playlist-card ">
                             <div class="card-image">
                                 <img src="https://mosaic.scdn.co/640/ab67616d00001e0205e895059be31891a3e0f01dab67616d00001e021e7c1f167d1a6fdd2d8cab10ab67616d00001e02a3ce9a779e12c842f77ad60eab67616d00001e02d8e5c2ba79fbc0b700662a1c" alt="chinese songs ">
                             </div>
                             <div class="card-info">
                                 <h3>chinese songs </h3>
-                                <!-- Uses owner for playlist dicts -->
+                                <p>lamkaiyi</p> 
+                            </div>
+                        </a>
+                        
+                        <a href="https://open.spotify.com/playlist/1YUvp7w9Z5qe75X0q29Tfp" target="_blank" class="card glass-card playlist-card ">
+                            <div class="card-image">
+                                <img src="https://mosaic.scdn.co/640/ab67616d00001e024ca8d06b996fb365b62d3d9cab67616d00001e026a1cba0e39d52540add955c6ab67616d00001e02956043cfb058f0be93022267ab67616d00001e02b574d4c9929a31926d5faf1b" alt="GYM ">
+                            </div>
+                            <div class="card-info">
+                                <h3>GYM </h3>
+                                <p>lamkaiyi</p> 
+                            </div>
+                        </a>
+                        
+                        <a href="https://open.spotify.com/playlist/6GC8aas0uMcFNN1tuCSsWp" target="_blank" class="card glass-card playlist-card ">
+                            <div class="card-image">
+                                <img src="https://mosaic.scdn.co/640/ab67616d00001e022c0e1e9e1fd1e7b132da1606ab67616d00001e0236b5099b9e614214f6919bd9ab67616d00001e02455cc3060b25c1f0015269feab67616d00001e02b9cff3f017498dd08950775c" alt="Tings">
+                            </div>
+                            <div class="card-info">
+                                <h3>Tings</h3>
                                 <p>lamkaiyi</p> 
                             </div>
                         </a>
@@ -360,10 +361,52 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Mood Section -->
+            <section class="carousel-section" id="mood">
+                <div class="section-content mood-content">
+                    <div class="mood-selector">
+                        <select id="mood-dropdown" onchange="updateMood()">
+                            <option value="recent">Recent Tracks</option>
+                            
+                            <option value="5zNJXTTTScXoWbdfD6grqV">4min/km</option>
+                            
+                            <option value="0d4PRVtcxAWag46q2fWEqZ">Live Feels</option>
+                            
+                            <option value="6PycUxQWSpvTSQGP3aZpZ1">Hoang</option>
+                            
+                            <option value="0gv9fbCCrcRu02MN8RMHKd">My Shazam Tracks</option>
+                            
+                            <option value="2MjbxuSzpkp46Pgyn1liB9">Chill vibes </option>
+                            
+                            <option value="4EDQpPOaTIlUYmHMgp1xHi">😡</option>
+                            
+                            <option value="4IhWopVN4LWRRZz99WCU4S">Feels</option>
+                            
+                            <option value="0qsZoOTCR73lr8t2vKb38P">chinese songs </option>
+                            
+                            <option value="1YUvp7w9Z5qe75X0q29Tfp">GYM </option>
+                            
+                            <option value="6GC8aas0uMcFNN1tuCSsWp">Tings</option>
+                            
+                        </select>
+                    </div>
+
+                    <div class="mood-display">
+                        <h2 id="mood-percentage" class="mood-percentage">0%</h2>
+                        <h3 id="mood-name" class="mood-name">UNKNOWN</h3>
+                        <div id="mood-bars" class="mood-bars">
+                            <!-- Bars generated via JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
     <script>
+        const moodData = {"recent": {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}}, "5zNJXTTTScXoWbdfD6grqV": {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}}, "0d4PRVtcxAWag46q2fWEqZ": {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}}, "6PycUxQWSpvTSQGP3aZpZ1": {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}}, "0gv9fbCCrcRu02MN8RMHKd": {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}}, "2MjbxuSzpkp46Pgyn1liB9": {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}}, "4EDQpPOaTIlUYmHMgp1xHi": {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}}, "4IhWopVN4LWRRZz99WCU4S": {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}}, "0qsZoOTCR73lr8t2vKb38P": {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}}, "1YUvp7w9Z5qe75X0q29Tfp": {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}}, "6GC8aas0uMcFNN1tuCSsWp": {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}}};
+
         function scrollToSection(id) {
             const container = document.getElementById('carousel');
             const section = document.getElementById(id);
@@ -374,6 +417,84 @@
                 });
             }
         }
+
+        function toggleThirdPartyPlaylists() {
+            const checkbox = document.getElementById('toggle-third-party');
+            const thirdPartyCards = document.querySelectorAll('.third-party-playlist');
+            thirdPartyCards.forEach(card => {
+                if (checkbox.checked) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function handleScroll() {
+            const container = document.getElementById('carousel');
+            const moodSection = document.getElementById('mood');
+            const auraBg = document.getElementById('aura-bg');
+            
+            // Check if we are viewing the mood section
+            const scrollPos = container.scrollLeft + (container.clientWidth / 2);
+            if (scrollPos >= moodSection.offsetLeft) {
+                auraBg.classList.add('active');
+            } else {
+                auraBg.classList.remove('active');
+            }
+        }
+
+        function updateMood() {
+            const dropdown = document.getElementById('mood-dropdown');
+            const data = moodData[dropdown.value];
+            
+            if (!data) return;
+
+            const auraBg = document.getElementById('aura-bg');
+            auraBg.style.setProperty('--aura-c1', data.colors[0]);
+            auraBg.style.setProperty('--aura-c2', data.colors[1]);
+            
+            // Speed depends on emotion (Happy/Angry = fast, Sad/Chill = slow)
+            if (data.dominant === 'Happy' || data.dominant === 'Angry') {
+                auraBg.style.setProperty('--aura-speed', '4s');
+            } else {
+                auraBg.style.setProperty('--aura-speed', '12s');
+            }
+
+            document.getElementById('mood-percentage').innerText = `${data.max_percentage}%`;
+            document.getElementById('mood-name').innerText = data.dominant.toUpperCase();
+
+            // Render bars
+            const barsContainer = document.getElementById('mood-bars');
+            barsContainer.innerHTML = '';
+            
+            const emotions = ['Happy', 'Chill', 'Sad', 'Angry'];
+            emotions.forEach(emo => {
+                const pct = data.percentages[emo] || 0;
+                const barWrapper = document.createElement('div');
+                barWrapper.className = 'mood-bar-wrapper';
+                
+                const label = document.createElement('span');
+                label.innerText = emo.toUpperCase();
+                
+                const track = document.createElement('div');
+                track.className = 'mood-bar-track';
+                
+                const fill = document.createElement('div');
+                fill.className = 'mood-bar-fill';
+                fill.style.width = `${pct}%`;
+                
+                track.appendChild(fill);
+                barWrapper.appendChild(label);
+                barWrapper.appendChild(track);
+                barsContainer.appendChild(barWrapper);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateMood();
+        });
     </script>
 </body>
 </html>

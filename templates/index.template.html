@@ -6,10 +6,13 @@
     <title>Spotify Moodboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="aura-bg" class="aura-bg"></div>
+    <div class="noise-overlay"></div>
+
     <div class="app-container">
         <header class="glass-header">
             <h1>Moodboard</h1>
@@ -17,10 +20,11 @@
                 <button onclick="scrollToSection('recent')">Recent</button>
                 <button onclick="scrollToSection('all-time')">All-Time</button>
                 <button onclick="scrollToSection('playlists')">Playlists</button>
+                <button onclick="scrollToSection('mood')" class="mood-btn">Mood</button>
             </nav>
         </header>
 
-        <main class="carousel-container" id="carousel">
+        <main class="carousel-container" id="carousel" onscroll="handleScroll()">
             <!-- Recent Tracks Section -->
             <section class="carousel-section" id="recent">
                 <div class="section-content">
@@ -64,16 +68,22 @@
             <!-- Playlists Section -->
             <section class="carousel-section" id="playlists">
                 <div class="section-content">
-                    <h2 class="section-title">Your Playlists</h2>
+                    <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
+                        <h2 class="section-title" style="margin-bottom: 0;">Your Playlists</h2>
+                        <label class="toggle-switch-container">
+                            <input type="checkbox" id="toggle-third-party" checked onchange="toggleThirdPartyPlaylists()">
+                            <div class="toggle-switch"></div>
+                            <span>Show Third-Party Playlists</span>
+                        </label>
+                    </div>
                     <div class="grid-container">
                         {% for playlist in playlists %}
-                        <a href="{{ playlist.link }}" target="_blank" class="card glass-card">
+                        <a href="{{ playlist.link }}" target="_blank" class="card glass-card playlist-card {% if playlist.is_third_party %}third-party-playlist{% endif %}">
                             <div class="card-image">
                                 <img src="{{ playlist.image_url }}" alt="{{ playlist.name }}">
                             </div>
                             <div class="card-info">
                                 <h3>{{ playlist.name }}</h3>
-                                <!-- Uses owner for playlist dicts -->
                                 <p>{{ playlist.owner }}</p> 
                             </div>
                         </a>
@@ -81,10 +91,34 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Mood Section -->
+            <section class="carousel-section" id="mood">
+                <div class="section-content mood-content">
+                    <div class="mood-selector">
+                        <select id="mood-dropdown" onchange="updateMood()">
+                            <option value="recent">Recent Tracks</option>
+                            {% for playlist in playlists %}
+                            <option value="{{ playlist.id }}">{{ playlist.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mood-display">
+                        <h2 id="mood-percentage" class="mood-percentage">0%</h2>
+                        <h3 id="mood-name" class="mood-name">UNKNOWN</h3>
+                        <div id="mood-bars" class="mood-bars">
+                            <!-- Bars generated via JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
     <script>
+        const moodData = {{ mood_data_json | safe }};
+
         function scrollToSection(id) {
             const container = document.getElementById('carousel');
             const section = document.getElementById(id);
@@ -95,6 +129,84 @@
                 });
             }
         }
+
+        function toggleThirdPartyPlaylists() {
+            const checkbox = document.getElementById('toggle-third-party');
+            const thirdPartyCards = document.querySelectorAll('.third-party-playlist');
+            thirdPartyCards.forEach(card => {
+                if (checkbox.checked) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function handleScroll() {
+            const container = document.getElementById('carousel');
+            const moodSection = document.getElementById('mood');
+            const auraBg = document.getElementById('aura-bg');
+            
+            // Check if we are viewing the mood section
+            const scrollPos = container.scrollLeft + (container.clientWidth / 2);
+            if (scrollPos >= moodSection.offsetLeft) {
+                auraBg.classList.add('active');
+            } else {
+                auraBg.classList.remove('active');
+            }
+        }
+
+        function updateMood() {
+            const dropdown = document.getElementById('mood-dropdown');
+            const data = moodData[dropdown.value];
+            
+            if (!data) return;
+
+            const auraBg = document.getElementById('aura-bg');
+            auraBg.style.setProperty('--aura-c1', data.colors[0]);
+            auraBg.style.setProperty('--aura-c2', data.colors[1]);
+            
+            // Speed depends on emotion (Happy/Angry = fast, Sad/Chill = slow)
+            if (data.dominant === 'Happy' || data.dominant === 'Angry') {
+                auraBg.style.setProperty('--aura-speed', '4s');
+            } else {
+                auraBg.style.setProperty('--aura-speed', '12s');
+            }
+
+            document.getElementById('mood-percentage').innerText = `${data.max_percentage}%`;
+            document.getElementById('mood-name').innerText = data.dominant.toUpperCase();
+
+            // Render bars
+            const barsContainer = document.getElementById('mood-bars');
+            barsContainer.innerHTML = '';
+            
+            const emotions = ['Happy', 'Chill', 'Sad', 'Angry'];
+            emotions.forEach(emo => {
+                const pct = data.percentages[emo] || 0;
+                const barWrapper = document.createElement('div');
+                barWrapper.className = 'mood-bar-wrapper';
+                
+                const label = document.createElement('span');
+                label.innerText = emo.toUpperCase();
+                
+                const track = document.createElement('div');
+                track.className = 'mood-bar-track';
+                
+                const fill = document.createElement('div');
+                fill.className = 'mood-bar-fill';
+                fill.style.width = `${pct}%`;
+                
+                track.appendChild(fill);
+                barWrapper.appendChild(label);
+                barWrapper.appendChild(track);
+                barsContainer.appendChild(barWrapper);
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateMood();
+        });
     </script>
 </body>
 </html>

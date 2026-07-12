@@ -72,7 +72,10 @@ To allow the GitHub Action to run automatically, you need to provide it with you
 ---
 
 ## Local Development
-If you want to tweak the CSS or HTML template locally:
-1. Run `python generate_site.py`.
-2. If you don't have the API keys configured locally as environment variables, the script will automatically fallback to generating **dummy data**.
+If you want to tweak the CSS, HTML template, or test real data locally:
+1. **With Dummy Data**: Just run `python generate_site.py`. If no credentials are set, the script will automatically fallback to generating **dummy data**.
+2. **With Real Data (.env option)**: 
+   - Create a copy of `.env.example` and name it `.env`.
+   - Fill in your `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, and `SPOTIFY_REFRESH_TOKEN` inside the `.env` file.
+   - Run `python generate_site.py`. It will automatically load your credentials and fetch your real Spotify data.
 3. Open `index.html` in your browser to view your design changes instantly!
