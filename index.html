@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Moodboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="glass-header">
+            <h1>Moodboard</h1>
+            <nav class="nav-links">
+                <button onclick="scrollToSection('recent')">Recent</button>
+                <button onclick="scrollToSection('all-time')">All-Time</button>
+                <button onclick="scrollToSection('playlists')">Playlists</button>
+            </nav>
+        </header>
+
+        <main class="carousel-container" id="carousel">
+            <!-- Recent Tracks Section -->
+            <section class="carousel-section" id="recent">
+                <div class="section-content">
+                    <h2 class="section-title">Recent Tracks</h2>
+                    <div class="grid-container">
+                        
+                        <a href="#" target="_blank" class="card glass-card">
+                            <div class="card-image">
+                                <img src="https://via.placeholder.com/150/1db954/ffffff?text=Track+1" alt="Dummy Track 1">
+                            </div>
+                            <div class="card-info">
+                                <h3>Dummy Track 1</h3>
+                                <p>Artist A</p>
+                            </div>
+                        </a>
+                        
+                        <a href="#" target="_blank" class="card glass-card">
+                            <div class="card-image">
+                                <img src="https://via.placeholder.com/150/1db954/ffffff?text=Track+2" alt="Dummy Track 2">
+                            </div>
+                            <div class="card-info">
+                                <h3>Dummy Track 2</h3>
+                                <p>Artist B</p>
+                            </div>
+                        </a>
+                        
+                    </div>
+                </div>
+            </section>
+
+            <!-- All-Time Top Tracks Section -->
+            <section class="carousel-section" id="all-time">
+                <div class="section-content">
+                    <h2 class="section-title">All-Time Top Tracks</h2>
+                    <div class="grid-container">
+                        
+                        <a href="#" target="_blank" class="card glass-card">
+                            <div class="card-image">
+                                <img src="https://via.placeholder.com/150/ff4d4d/ffffff?text=Top+1" alt="Top Dummy 1">
+                            </div>
+                            <div class="card-info">
+                                <h3>Top Dummy 1</h3>
+                                <p>Artist B</p>
+                            </div>
+                        </a>
+                        
+                    </div>
+                </div>
+            </section>
+
+            <!-- Playlists Section -->
+            <section class="carousel-section" id="playlists">
+                <div class="section-content">
+                    <h2 class="section-title">Your Playlists</h2>
+                    <div class="grid-container">
+                        
+                        <a href="#" target="_blank" class="card glass-card">
+                            <div class="card-image">
+                                <img src="https://via.placeholder.com/150/4d79ff/ffffff?text=Playlist+1" alt="Dummy Playlist">
+                            </div>
+                            <div class="card-info">
+                                <h3>Dummy Playlist</h3>
+                                <!-- Uses owner for playlist dicts -->
+                                <p>User C</p> 
+                            </div>
+                        </a>
+                        
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function scrollToSection(id) {
+            const container = document.getElementById('carousel');
+            const section = document.getElementById(id);
+            if(container && section) {
+                container.scrollTo({
+                    left: section.offsetLeft,
+                    behavior: 'smooth'
+                });
+            }
+        }
+    </script>
+</body>
+</html>
