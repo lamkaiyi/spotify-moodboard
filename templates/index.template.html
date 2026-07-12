@@ -96,12 +96,7 @@
             <section class="carousel-section" id="mood">
                 <div class="section-content mood-content">
                     <div class="mood-selector">
-                        <select id="mood-dropdown" onchange="updateMood()">
-                            <option value="recent">Recent Tracks</option>
-                            {% for playlist in playlists %}
-                            <option value="{{ playlist.id }}">{{ playlist.name }}</option>
-                            {% endfor %}
-                        </select>
+                        <h2 class="section-title">Recent Tracks</h2>
                     </div>
 
                     <div class="mood-display">
@@ -157,8 +152,7 @@
         }
 
         function updateMood() {
-            const dropdown = document.getElementById('mood-dropdown');
-            const data = moodData[dropdown.value];
+            const data = moodData['recent'];
             
             if (!data) return;
 
@@ -173,8 +167,9 @@
                 auraBg.style.setProperty('--aura-speed', '12s');
             }
 
-            document.getElementById('mood-percentage').innerText = `${data.max_percentage}%`;
-            document.getElementById('mood-name').innerText = data.dominant.toUpperCase();
+            const maxPct = data.max_percentage != null ? data.max_percentage : 0;
+            document.getElementById('mood-percentage').innerText = `${maxPct}%`;
+            document.getElementById('mood-name').innerText = (data.dominant || 'UNKNOWN').toUpperCase();
 
             // Render bars
             const barsContainer = document.getElementById('mood-bars');

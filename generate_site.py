@@ -9,6 +9,7 @@ load_dotenv()
 SPOTIFY_CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')
 SPOTIFY_CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET')
 SPOTIFY_REFRESH_TOKEN = os.environ.get('SPOTIFY_REFRESH_TOKEN')
+RAPIDAPI_KEY = os.environ.get('RAPIDAPI_KEY')
 
 def get_access_token():
     auth_url = 'https://accounts.spotify.com/api/token'
@@ -22,27 +23,52 @@ def get_access_token():
     response.raise_for_status()
     return response.json()['access_token']
 
-def calculate_mood(track_features):
-    if not track_features:
-        return {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}}
+def calculate_mood_from_genres(artist_ids, access_token):
+    if not artist_ids:
+        return {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}, "max_percentage": 0}
     
+    headers = {'Authorization': f'Bearer {access_token}'}
+    try:
+        res = requests.get(f'https://api.spotify.com/v1/artists?ids={",".join(artist_ids)}', headers=headers, timeout=10)
+        if res.status_code != 200:
+            return {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}, "max_percentage": 0}
+        
+        artists = res.json().get('artists', [])
+    except Exception as e:
+        print(f"Error fetching artists: {e}")
+        return {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}, "max_percentage": 0}
+
     mood_counts = {"Happy": 0, "Chill": 0, "Sad": 0, "Angry": 0}
-    for f in track_features:
-        if not f: continue
-        val = f.get('valence', 0.5)
-        eng = f.get('energy', 0.5)
-        if val >= 0.5 and eng >= 0.5:
-            mood_counts["Happy"] += 1
-        elif val >= 0.5 and eng < 0.5:
+    
+    # Keyword matching for genres
+    keywords = {
+        "Happy": ['pop', 'dance', 'party', 'disco', 'funk', 'house', 'upbeat', 'edm', 'latin', 'reggaeton', 'k-pop'],
+        "Chill": ['acoustic', 'lo-fi', 'jazz', 'ambient', 'chill', 'soul', 'r&b', 'indie', 'folk', 'classical'],
+        "Sad": ['sad', 'melancholy', 'emo', 'blues', 'heartbreak', 'goth'],
+        "Angry": ['metal', 'rock', 'punk', 'hardcore', 'rap', 'hip hop', 'drill', 'grime', 'trap']
+    }
+    
+    for a in artists:
+        if not a: continue
+        genres = a.get('genres', [])
+        matched = False
+        for g in genres:
+            g_lower = g.lower()
+            for mood, words in keywords.items():
+                if any(w in g_lower for w in words):
+                    mood_counts[mood] += 1
+                    matched = True
+                    break
+            if matched:
+                break
+        
+        if not matched and genres:
+            # Fallback for unmatched genres
             mood_counts["Chill"] += 1
-        elif val < 0.5 and eng < 0.5:
-            mood_counts["Sad"] += 1
-        else:
-            mood_counts["Angry"] += 1
-            
+
     total = sum(mood_counts.values())
     if total == 0:
-        return {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}}
+        return {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}, "max_percentage": 0}
         
     dominant = max(mood_counts, key=mood_counts.get)
     percentages = {k: int((v/total)*100) for k, v in mood_counts.items()}
@@ -75,7 +101,7 @@ def fetch_spotify_data(access_token):
     recent_data = recent_res.json()
     
     recent_tracks = []
-    recent_track_ids = []
+    recent_artist_ids = []
     for item in recent_data.get('items', []):
         track = item['track']
         recent_tracks.append({
@@ -85,7 +111,10 @@ def fetch_spotify_data(access_token):
             'image_url': track['album']['images'][0]['url'] if track['album']['images'] else '',
             'link': track['external_urls'].get('spotify', '')
         })
-        recent_track_ids.append(track['id'])
+        if track['artists']:
+            recent_artist_ids.append(track['artists'][0]['id'])
+    
+    recent_artist_ids = list(set(recent_artist_ids))[:50]
 
     # Top Tracks
     top_res = requests.get('https://api.spotify.com/v1/me/top/tracks?limit=10', headers=headers)
@@ -129,30 +158,14 @@ def fetch_spotify_data(access_token):
         
         if len(playlists) >= 10: break
 
-    # Pre-calculate Moods
+    # Pre-calculate Moods using Spotify Artist Genres
     mood_data = {}
     
-    # 1. Recent Tracks Mood
-    if recent_track_ids:
-        # Spotify allows up to 100 IDs per request
-        f_res = requests.get(f'https://api.spotify.com/v1/audio-features?ids={",".join(recent_track_ids[:100])}', headers=headers)
-        if f_res.status_code == 200:
-            mood_data['recent'] = calculate_mood(f_res.json().get('audio_features', []))
-        else:
-            mood_data['recent'] = calculate_mood([])
-            
-    # 2. Playlists Mood
-    for pl in playlists:
-        tracks_res = requests.get(f"https://api.spotify.com/v1/playlists/{pl['id']}/tracks?limit=30", headers=headers)
-        if tracks_res.status_code == 200:
-            t_data = tracks_res.json().get('items', [])
-            t_ids = [t['track']['id'] for t in t_data if t.get('track') and t['track'].get('id')]
-            if t_ids:
-                pf_res = requests.get(f'https://api.spotify.com/v1/audio-features?ids={",".join(t_ids[:100])}', headers=headers)
-                if pf_res.status_code == 200:
-                    mood_data[pl['id']] = calculate_mood(pf_res.json().get('audio_features', []))
-                    continue
-        mood_data[pl['id']] = calculate_mood([])
+    if recent_artist_ids:
+        print(f"  Fetching mood for {len(recent_artist_ids)} recent artists via Spotify Genres...")
+        mood_data['recent'] = calculate_mood_from_genres(recent_artist_ids, access_token)
+    else:
+        mood_data['recent'] = {"dominant": "Unknown", "colors": ["#000", "#000"], "percentages": {}, "max_percentage": 0}
 
     return {
         'recent_tracks': recent_tracks[:10],
@@ -163,9 +176,7 @@ def fetch_spotify_data(access_token):
 
 def get_dummy_data():
     mood_data = {
-        'recent': {"dominant": "Happy", "colors": ["#FFB703", "#FB8500"], "percentages": {"Happy": 60, "Chill": 20, "Sad": 10, "Angry": 10}, "max_percentage": 60},
-        'dummy_pl_1': {"dominant": "Sad", "colors": ["#023047", "#001020"], "percentages": {"Happy": 10, "Chill": 30, "Sad": 50, "Angry": 10}, "max_percentage": 50},
-        'dummy_pl_2': {"dominant": "Chill", "colors": ["#8ECAE6", "#219EBC"], "percentages": {"Happy": 20, "Chill": 70, "Sad": 10, "Angry": 0}, "max_percentage": 70}
+        'recent': {"dominant": "Happy", "colors": ["#FFB703", "#FB8500"], "percentages": {"Happy": 60, "Chill": 20, "Sad": 10, "Angry": 10}, "max_percentage": 60}
     }
     return {
         'recent_tracks': [
